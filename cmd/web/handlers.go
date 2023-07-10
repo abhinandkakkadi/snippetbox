@@ -14,14 +14,16 @@ func home(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	tpl, err := template.ParseFiles("./ui/html/pages/home.tmpl")
+	files := []string{"./ui/html/base.tmpl","./ui/html/pages/home.tmpl"}
+
+	tpl, err := template.ParseFiles(files...)
 	if err != nil {
 		log.Print(err.Error())
 		http.Error(w, "Internal server error", 500)
 		return
 	}
 
-	err = tpl.Execute(w, nil)
+	err = tpl.ExecuteTemplate(w,"base",nil)
 	if err != nil {
 		log.Print(err.Error())
 		http.Error(w, "Internal server error", 500)
