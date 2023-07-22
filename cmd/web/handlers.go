@@ -7,34 +7,30 @@ import (
 	"strconv"
 )
 
-
-
-
 func (app *application) home(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/" {
 		app.notFound(w)
 		return
 	}
 
+	// Initialize a slice containing the paths to the two files. It's important
+	// to note that the file containing our base template must be the *first*
+	// file in the slice.
+	files := []string{"./ui/html/base.tmpl", "./ui/html/pages/home.tmpl", "./ui/html/partials/nav.tmpl"}
 
-  // Initialize a slice containing the paths to the two files. It's important
-  // to note that the file containing our base template must be the *first*
-  // file in the slice.
-	files := []string{"./ui/html/base.tmpl","./ui/html/pages/home.tmpl","./ui/html/partials/nav.tmpl"}
-
-	  // Use the template.ParseFiles() function to read the template file into a
-    // template set. If there's an error, we log the detailed error message and use
-    // the http.Error() function to send a generic 500 Internal Server Error
-    // response to the user.
+	// Use the template.ParseFiles() function to read the template file into a
+	// template set. If there's an error, we log the detailed error message and use
+	// the http.Error() function to send a generic 500 Internal Server Error
+	// response to the user.
 	tpl, err := template.ParseFiles(files...)
 	if err != nil {
-		app.serverError(w,err)
+		app.serverError(w, err)
 		return
 	}
 
-	err = tpl.ExecuteTemplate(w,"base",nil)
+	err = tpl.ExecuteTemplate(w, "base", nil)
 	if err != nil {
-		app.serverError(w,err)
+		app.serverError(w, err)
 	}
 }
 
@@ -51,7 +47,7 @@ func (app *application) snippetView(w http.ResponseWriter, r *http.Request) {
 func (app *application) snippetCreate(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {
 		w.Header().Set("Allow", http.MethodPost)
-		app.clientError(w,http.StatusMethodNotAllowed)
+		app.clientError(w, http.StatusMethodNotAllowed)
 		return
 	}
 
