@@ -5,4 +5,3 @@ import (
 )
 
 var ErrNoRecord = errors.New("models: no matching record found")
-

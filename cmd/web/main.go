@@ -13,16 +13,15 @@ import (
 )
 
 type application struct {
-	errorLog *log.Logger
-	infoLog  *log.Logger
-	snippets *models.SnippetModel
+	errorLog      *log.Logger
+	infoLog       *log.Logger
+	snippets      *models.SnippetModel
 	templateCache map[string]*template.Template
 }
 
 func main() {
 
 	addr := flag.String("addr", ":4000", "HTTP network address")
-
 
 	dsn := flag.String("dsn", "abhinand:pass@/snippetbox?parseTime=true", "MySQL data source name")
 
@@ -43,11 +42,10 @@ func main() {
 		errorLog.Fatal(err)
 	}
 
-	
 	app := &application{
-		errorLog: errorLog,
-		infoLog:  infoLog,
-		snippets: &models.SnippetModel{DB: db},
+		errorLog:      errorLog,
+		infoLog:       infoLog,
+		snippets:      &models.SnippetModel{DB: db},
 		templateCache: templateCache,
 	}
 
@@ -71,18 +69,17 @@ func main() {
 	errorLog.Fatal(err) // Error message
 }
 
-
 func openDB(dsn string) (*sql.DB, error) {
 
-	db, err := sql.Open("mysql",dsn)
+	db, err := sql.Open("mysql", dsn)
 	if err != nil {
-		return nil,err
+		return nil, err
 	}
 
 	if err = db.Ping(); err != nil {
-		return nil,err
+		return nil, err
 	}
 
-	return db,nil
+	return db, nil
 
 }
