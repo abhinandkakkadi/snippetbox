@@ -2,7 +2,9 @@ package main
 
 import "net/http"
 
-func (app *application) routes() *http.ServeMux {
+
+
+func (app *application) routes() http.Handler {
 
 	mux := http.NewServeMux()
 
@@ -13,5 +15,7 @@ func (app *application) routes() *http.ServeMux {
 	mux.HandleFunc("/snippet/view", app.snippetView)
 	mux.HandleFunc("/snippet/create", app.snippetCreate)
 
-	return mux
+	// secureHeaders middleware wraps the mux - every route registered to the router (mux) will get this middleware
+	return secureHeaders(mux)
+
 }
