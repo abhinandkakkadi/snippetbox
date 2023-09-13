@@ -33,7 +33,7 @@ func (app *application) render(w http.ResponseWriter, status int, page string, d
 		return
 	}
 
-	// Initialize a new buffer
+	// Initialize a new buffer - This is done so that even if there is some runtime error, the user can get those message 
 	buf := new(bytes.Buffer)
 
 	// write the template to buffer, instead of straight to http.ResponseWriter. If there's
@@ -41,6 +41,7 @@ func (app *application) render(w http.ResponseWriter, status int, page string, d
 	err := ts.ExecuteTemplate(buf, "base", data)
 	if err != nil {
 		app.serverError(w, err)
+		return
 	}
 	
 	// if no error go ahead and set header to the intended header

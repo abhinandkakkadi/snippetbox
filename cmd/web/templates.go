@@ -14,9 +14,9 @@ type templateData struct {
 	Snippets []*models.Snippet
 }
 
-// returns nicely formatted time as string
+// returns nicely formatted time as string (should only return one value, but can return error as second value)
 func humanDate(t time.Time) string {
-	return t.Format("02 Jan 2006 at 15:04")
+	return t.Format("02 Jan 2006 at 15:04") // custom template function
 }
 
 // this is a string-keyed map which acts as a lookup between the names of our custom
