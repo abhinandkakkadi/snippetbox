@@ -16,6 +16,6 @@ func (app *application) routes() http.Handler {
 	mux.HandleFunc("/snippet/create", app.snippetCreate)
 
 	// secureHeaders middleware wraps the mux - every route registered to the router (mux) will get this middleware
-	return app.logRequest(secureHeaders(mux))
+	return app.recoverPanic(app.logRequest(secureHeaders(mux)))
 
 }
