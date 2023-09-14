@@ -17,3 +17,9 @@ WHEN USING CUSTOM TEMPLATE FUNCTION - CALLING FUNCTION FROM PARSED TEMPLATE
 
 
 “<time>{{.Created | humanDate | printf "Created: %s"}}</time>” - we can do like this where humanDate is the custom function
+
+
+ALICE middleware - middleware chain can be assigned to a variable 
+“myChain := alice.New(myMiddlewareOne, myMiddlewareTwo)
+myOtherChain := myChain.Append(myMiddleware3)
+return myOtherChain.Then(myHandler)”
