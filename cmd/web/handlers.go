@@ -83,24 +83,26 @@ func (app *application) snippetCreatePost(w http.ResponseWriter, r *http.Request
 		return
 	}
 
-	form := 
-
-	title := r.PostForm.Get("title")
-	content := r.PostForm.Get("content")
+	form := snippetCreateForm{
+		Title: r.PostForm.Get("title"),
+		Content: r.PostForm.Get("content"),
+		Expires: expires,
+		FieldErrors: map[string]string{},
+	}
 
 	// map to hold any validation errors for the form fields
 	fieldErrors := make(map[string]string)
 
 	// check if title is blank / If the title length exceeds 100 chars
-	if strings.TrimSpace(title) == "" {
-		fieldErrors["title"] = "This field cannot be blank"
+	if strings.TrimSpace(form.Title) == "" {
+		form.FieldErrors["title"] = "This field cannot be blank"
 		// here we are using the below function as we want to count the number of character and not number of bytes (can be different for non english characters)
-	} else if utf8.RuneCountInString(title) > 100 {
-		fieldErrors["title"] = "This field cannot be more than 100 characters long"
+	} else if utf8.RuneCountInString(form.Title) > 100 {
+		form.FieldErrors["title"] = "This field cannot be more than 100 characters long"
 	}
 
 	// check if content is blank
-	if strings.TrimSpace(content) == "" {
+	if strings.TrimSpace(form.Content) == "" {
 		fieldErrors["content"] = "This field cannot be blank"
 	}
 
@@ -109,12 +111,14 @@ func (app *application) snippetCreatePost(w http.ResponseWriter, r *http.Request
 	}
 
 	// if there are any errors, dump them in a plain text HTTP response and return the handler
-	if len(fieldErrors) > 0 {
-		fmt.Fprint(w, fieldErrors)
+	if len(form.FieldErrors) > 0 {
+		data := app.newTemplateData(r)
+		data.Form = form
+		app.render(w,http.StatusUnprocessableEntity,"create.tmpl",data)
 		return
 	}
 
-	id, err := app.snippets.Insert(title, content, expires)
+	id, err := app.snippets.Insert(form.Title, form.Content, form.Expires)
 	if err != nil {
 		app.serverError(w, err)
 		return
