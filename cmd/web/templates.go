@@ -10,8 +10,9 @@ import (
 
 type templateData struct {
 	CurrentYear int
-	Snippet  *models.Snippet
-	Snippets []*models.Snippet
+	Snippet     *models.Snippet
+	Snippets    []*models.Snippet
+	Form        any
 }
 
 // returns nicely formatted time as string (should only return one value, but can return error as second value)
@@ -24,7 +25,6 @@ func humanDate(t time.Time) string {
 var functions = template.FuncMap{
 	"humanDate": humanDate,
 }
-
 
 func newTemplateCache() (map[string]*template.Template, error) {
 
@@ -42,7 +42,7 @@ func newTemplateCache() (map[string]*template.Template, error) {
 
 		// template.FuncMap must be registered with the templates set before we call ParseFiles()
 		// call template.New() to create an empty template set
-		// use Funcs() method to register the template.FuncMap, and then parse the file as normal 
+		// use Funcs() method to register the template.FuncMap, and then parse the file as normal
 		ts, err := template.New(name).Funcs(functions).ParseFiles("./ui/html/base.tmpl")
 		if err != nil {
 			return nil, err

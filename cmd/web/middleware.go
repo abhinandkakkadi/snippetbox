@@ -9,14 +9,14 @@ import (
 func secureHeaders(next http.Handler) http.Handler {
 
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		
-		w.Header().Set("Content-Security-Policy","default-src 'self'; style-src 'self' fonts.googleapis.com; font-src fonts.gstatic.com")
-		w.Header().Set("Referrer-Policy","origin-when-cross-origin")
+
+		w.Header().Set("Content-Security-Policy", "default-src 'self'; style-src 'self' fonts.googleapis.com; font-src fonts.gstatic.com")
+		w.Header().Set("Referrer-Policy", "origin-when-cross-origin")
 		w.Header().Set("X-Content-Type-Options", "nosniff")
-		w.Header().Set("X-Frame-Options","deny")
-		w.Header().Set("X-XSS-Protection","0")
-		
-		next.ServeHTTP(w,r)
+		w.Header().Set("X-Frame-Options", "deny")
+		w.Header().Set("X-XSS-Protection", "0")
+
+		next.ServeHTTP(w, r)
 
 	})
 }
@@ -24,8 +24,8 @@ func secureHeaders(next http.Handler) http.Handler {
 // log request for every handler
 func (app *application) logRequest(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		app.infoLog.Printf("%s - %s %s %s",r.RemoteAddr,r.Proto,r.Method,r.URL.RequestURI())
-		next.ServeHTTP(w,r)
+		app.infoLog.Printf("%s - %s %s %s", r.RemoteAddr, r.Proto, r.Method, r.URL.RequestURI())
+		next.ServeHTTP(w, r)
 	})
 }
 
@@ -42,13 +42,13 @@ func (app *application) recoverPanic(next http.Handler) http.Handler {
 			if err := recover(); err != nil {
 
 				// Setting this Header trigger's the server to automatically close the connection
-				w.Header().Set("Connection","close")
-				app.serverError(w,fmt.Errorf("%s",err))
+				w.Header().Set("Connection", "close")
+				app.serverError(w, fmt.Errorf("%s", err))
 
 			}
 		}()
 
-		next.ServeHTTP(w,r)
+		next.ServeHTTP(w, r)
 
 	})
 }
