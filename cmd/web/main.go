@@ -44,11 +44,15 @@ func main() {
 		errorLog.Fatal(err)
 	}
 
+	// initialize a decoder instance
+	formDecoder := form.NewDecoder()
+
 	app := &application{
 		errorLog:      errorLog,
 		infoLog:       infoLog,
 		snippets:      &models.SnippetModel{DB: db},
 		templateCache: templateCache,
+		formDecoder:   formDecoder,
 	}
 
 	// The value returned from the flag.String() function is a pointer to the flag

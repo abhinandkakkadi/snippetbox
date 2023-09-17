@@ -7,7 +7,6 @@ import (
 
 // Validation helpers
 
-
 type Validator struct {
 	FieldErrors map[string]string
 }
@@ -17,7 +16,7 @@ func (v *Validator) Valid() bool {
 }
 
 // Add a new Field error
-func (v *Validator) AddFieldError(key,message string) {
+func (v *Validator) AddFieldError(key, message string) {
 
 	if v.FieldErrors == nil {
 		v.FieldErrors = make(map[string]string)
@@ -29,9 +28,9 @@ func (v *Validator) AddFieldError(key,message string) {
 }
 
 // add an error message to the FieldErrors only if a validation is not ok
-func (v *Validator) CheckField(ok bool,key,message string) {
+func (v *Validator) CheckField(ok bool, key, message string) {
 	if !ok {
-		v.AddFieldError(key,message)
+		v.AddFieldError(key, message)
 	}
 }
 
@@ -41,7 +40,7 @@ func NotBlank(value string) bool {
 }
 
 // returns true if a value contains no more than n characters
-func MaxChars(value string,n int) bool {
+func MaxChars(value string, n int) bool {
 	return utf8.RuneCountInString(value) <= n
 }
 
