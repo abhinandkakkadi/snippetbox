@@ -63,7 +63,7 @@ func (app *application) newTemplateData(r *http.Request) *templateData {
 
 }
 
-// create a decoder post form helper method 
+// create a decoder post form helper method
 func (app *application) decodePostForm(r *http.Request, dst any) error {
 
 	err := r.ParseForm()
@@ -71,7 +71,7 @@ func (app *application) decodePostForm(r *http.Request, dst any) error {
 		return err
 	}
 
-	err = app.formDecoder.Decode(dst,r.PostForm)
+	err = app.formDecoder.Decode(dst, r.PostForm)
 	if err != nil {
 
 		var invalidDecoderError *form.InvalidDecoderError
