@@ -54,8 +54,13 @@ func (app *application) snippetView(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// it will return the value corresponding to the given key
+	// and also delete it
+	//  If key does not exists, empty string will be returned
+	flash := app.sessionManager.PopString(r.Context(), "flash")
 	data := app.newTemplateData(r)
 	data.Snippet = snippet
+	data.Flash = flash
 
 	app.render(w, http.StatusOK, "view.tmpl", data)
 
@@ -99,6 +104,10 @@ func (app *application) snippetCreatePost(w http.ResponseWriter, r *http.Request
 		app.serverError(w, err)
 		return
 	}
+
+	// store a key value pair which persist across the session
+	// if there is not existing session for current user / if the session has expired, a new session wil be created.
+	app.sessionManager.Put(r.Context(), "flash", "snippet successfully created!")
 
 	http.Redirect(w, r, fmt.Sprintf("/snippet/view/%d", id), http.StatusSeeOther)
 

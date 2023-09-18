@@ -23,7 +23,7 @@ func (app *application) routes() http.Handler {
 	//middleware specific to dynamic application routes
 	dynamic := alice.New(app.sessionManager.LoadAndSave)
 
-	router.Handler(http.MethodGet, "/",  dynamic.ThenFunc(app.home))
+	router.Handler(http.MethodGet, "/", dynamic.ThenFunc(app.home))
 	router.Handler(http.MethodGet, "/snippet/view/:id", dynamic.ThenFunc(app.snippetView))
 	router.Handler(http.MethodGet, "/snippet/create", dynamic.ThenFunc(app.snippetCreate))
 	router.Handler(http.MethodPost, "/snippet/create", dynamic.ThenFunc(app.snippetCreatePost))
