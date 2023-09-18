@@ -59,6 +59,10 @@ func (app *application) newTemplateData(r *http.Request) *templateData {
 
 	return &templateData{
 		CurrentYear: time.Now().Year(),
+		// it will return the value corresponding to the given key
+		// and also delete it
+		//  If key does not exists, empty string will be returned
+		Flash: app.sessionManager.PopString(r.Context(), "flash"),
 	}
 
 }

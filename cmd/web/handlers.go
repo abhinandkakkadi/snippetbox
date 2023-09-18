@@ -54,13 +54,8 @@ func (app *application) snippetView(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// it will return the value corresponding to the given key
-	// and also delete it
-	//  If key does not exists, empty string will be returned
-	flash := app.sessionManager.PopString(r.Context(), "flash")
 	data := app.newTemplateData(r)
 	data.Snippet = snippet
-	data.Flash = flash
 
 	app.render(w, http.StatusOK, "view.tmpl", data)
 

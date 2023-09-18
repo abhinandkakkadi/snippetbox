@@ -21,6 +21,9 @@ func (app *application) routes() http.Handler {
 	router.Handler(http.MethodGet, "/static/*filepath", http.StripPrefix("/static", fileServer))
 
 	//middleware specific to dynamic application routes
+	// LoadAndSave checks each incoming request for session cookie
+	// if cookie present - it reads the token and find the corresponding session data from database
+	// while also checking the session hasn't expired
 	dynamic := alice.New(app.sessionManager.LoadAndSave)
 
 	router.Handler(http.MethodGet, "/", dynamic.ThenFunc(app.home))
