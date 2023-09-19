@@ -58,6 +58,9 @@ func main() {
 	// set lifetime of 12 hours
 	sessionmanager.Lifetime = 12 * time.Hour
 
+	// This make sure that cookie will be sent by the browser in case of https connection
+	sessionmanager.Cookie.Secure = true
+
 	app := &application{
 		errorLog:       errorLog,
 		infoLog:        infoLog,
@@ -83,7 +86,8 @@ func main() {
 	}
 
 	infoLog.Printf("Starting server on %s", *addr)
-	err = srv.ListenAndServe()
+	// use ListenAndServeTLS for a secure connection
+	err = srv.ListenAndServeTLS("./tls/cert.pem","./tls/key.pem")
 	errorLog.Fatal(err) // Error message
 }
 
