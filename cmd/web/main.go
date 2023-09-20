@@ -72,11 +72,11 @@ func main() {
 	}
 
 	// Initialize a tls.Config struct to hold the non-default TLS settings we
-	// want the server to use. In this case the only thing that we're changing 
+	// want the server to use. In this case the only thing that we're changing
 	// is the curve preferences value, so that only elliptic curves with assembly
 	// implementations are used
 	tlsConfig := &tls.Config{
-		CurvePreferences: []tls.CurveID{tls.X25519,tls.CurveP256},
+		CurvePreferences: []tls.CurveID{tls.X25519, tls.CurveP256},
 	}
 
 	// The value returned from the flag.String() function is a pointer to the flag
@@ -89,21 +89,21 @@ func main() {
 	// the ErrorLog field so that the server now uses the custom errorLog logger in
 	// the event of any problems.
 	srv := &http.Server{
-		Addr:     *addr,
-		ErrorLog: errorLog,
-		Handler:  app.routes(),
+		Addr:      *addr,
+		ErrorLog:  errorLog,
+		Handler:   app.routes(),
 		TLSConfig: tlsConfig,
 		// add Idle, Read and Write timeouts to the server
 		// This timeout works for all url
-		IdleTimeout: time.Minute, // all idle connection will be closed after 1 minute
-		ReadTimeout: 5 * time.Second, //if request headers or body are read are still read after 5 seconds the underlying connection is closed
+		IdleTimeout:  time.Minute,      // all idle connection will be closed after 1 minute
+		ReadTimeout:  5 * time.Second,  //if request headers or body are read are still read after 5 seconds the underlying connection is closed
 		WriteTimeout: 10 * time.Second, // close the connection if server attempts to write after a given period
 	}
 
 	infoLog.Printf("Starting server on %s", *addr)
 	// use ListenAndServeTLS for a secure connection
 	// Note: In production .gitignore both key pairs
-	err = srv.ListenAndServeTLS("./tls/cert.pem","./tls/key.pem")
+	err = srv.ListenAndServeTLS("./tls/cert.pem", "./tls/key.pem")
 	errorLog.Fatal(err) // Error message
 }
 
