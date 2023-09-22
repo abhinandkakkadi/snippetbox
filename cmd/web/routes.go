@@ -33,7 +33,7 @@ func (app *application) routes() http.Handler {
 
 	// Add the five routes, all of which use our dynamic middleware chain.
 	router.Handler(http.MethodGet, "/user/signup", dynamic.ThenFunc(app.userSignup))
-	router.Handler(http.MethodPost, "/user/singup", dynamic.ThenFunc(app.userSignupPost))
+	router.Handler(http.MethodPost, "/user/signup", dynamic.ThenFunc(app.userSignupPost))
 	router.Handler(http.MethodGet, "/user/login", dynamic.ThenFunc(app.userLogin))
 	router.Handler(http.MethodPost, "/user/login", dynamic.ThenFunc(app.userLoginPost))
 	router.Handler(http.MethodGet, "/user/logout", dynamic.ThenFunc(app.userLogoutPost))
