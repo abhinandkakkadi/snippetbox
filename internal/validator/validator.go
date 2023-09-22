@@ -12,7 +12,7 @@ var EmailRX = regexp.MustCompile("^[a-zA-Z0-9.!#$%&'*+\\/=?^_`{|}~-]+@[a-zA-Z0-9
 
 type Validator struct {
 	NonFieldErrors []string
-	FieldErrors map[string]string
+	FieldErrors    map[string]string
 }
 
 func (v *Validator) Valid() bool {
@@ -20,16 +20,16 @@ func (v *Validator) Valid() bool {
 }
 
 func (v *Validator) AddNonFieldError(message string) {
-	v.NonFieldErrors = append(v.NonFieldErrors,message)
+	v.NonFieldErrors = append(v.NonFieldErrors, message)
 }
 
 // Returns true if length is at least n
-func MinChars(value string,n int) bool {
+func MinChars(value string, n int) bool {
 	return utf8.RuneCountInString(value) >= n
 }
 
 // return true if it matches the regular expression
-func Matches(value string,rx *regexp.Regexp) bool {
+func Matches(value string, rx *regexp.Regexp) bool {
 	return rx.MatchString(value)
 }
 

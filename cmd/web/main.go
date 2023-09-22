@@ -70,7 +70,7 @@ func main() {
 		templateCache:  templateCache,
 		formDecoder:    formDecoder,
 		sessionManager: sessionmanager,
-		users: &models.UserModel{DB: db},
+		users:          &models.UserModel{DB: db},
 	}
 
 	// Initialize a tls.Config struct to hold the non-default TLS settings we
