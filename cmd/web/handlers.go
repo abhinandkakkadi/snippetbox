@@ -103,7 +103,16 @@ func (app *application) snippetCreatePost(w http.ResponseWriter, r *http.Request
 
 	id, err := app.snippets.Insert(form.Title, form.Content, form.Expires)
 	if err != nil {
-		app.serverError(w, err)
+		// used for entering unique reference number for payment.
+		if errors.Is(err,models.ErrDuplicateEmail) {
+			form.AddFieldError("email","Email address is already in use")
+
+			data := app.newTemplateData(r)
+			data.Form = form
+			app.render(w,http.StatusUnprocessableEntity,"signup.tmpl",data)
+		} else {
+			app.serverError(w,err)
+		}
 		return
 	}
 
@@ -145,8 +154,22 @@ func (app *application) userSignupPost(w http.ResponseWriter, r *http.Request) {
 		return
 }
 
-// Otherwise send the placeholder response (for now!).
-fmt.Fprintln(w, "Create a new user...")
+err = app.users.Insert(form.Name,form.Email,form.Password)
+if err != nil {
+	if errors.Is(err,models.ErrDuplicateEmail) {
+		form.AddFieldError("email","Email address is already in use")
+		data := app.newTemplateData(r)
+		data.Form = form
+		app.render(w,http.StatusUnprocessableEntity,"signup.tmpl",data)
+	} else {
+		app.serverError(w,err)
+	}
+
+	return
+}
+
+app.sessionManager.Put(r.Context(),"flash","Your signup was successful. Please log in")
+http.Redirect(w,r,"/user/login",http.StatusSeeOther)
 
 }
 
