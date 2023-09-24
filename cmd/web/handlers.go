@@ -213,7 +213,7 @@ func (app *application) userLoginPost(w http.ResponseWriter, r *http.Request) {
 	id, err := app.users.Authenticate(form.Email,form.Password)
 	if err != nil {
 		if errors.Is(err,models.ErrInvalidCredentials) {
-			form.AddNonFieldError("Email")
+			form.AddNonFieldError("Email or password is incorrect")
 
 			data := app.newTemplateData(r)
 			data.Form = form
@@ -252,7 +252,7 @@ func (app *application) userLogoutPost(w http.ResponseWriter, r *http.Request) {
 	app.sessionManager.Remove(r.Context(),"authenticatedUserID")
 
 	// add a flash message to the session to confirm that the user is logged out
-	app.sessionManager.Put(r.Context(),"flash","You've een logged out successfully!")
+	app.sessionManager.Put(r.Context(),"flash","You've been logged out successfully!")
 
 	http.Redirect(w,r,"/",http.StatusSeeOther)
 
