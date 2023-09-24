@@ -63,6 +63,8 @@ func (app *application) newTemplateData(r *http.Request) *templateData {
 		// and also delete it
 		//  If key does not exists, empty string will be returned
 		Flash: app.sessionManager.PopString(r.Context(), "flash"),
+		// add authentication status to template data
+		isAuthenticated: app.isAuthenticated(r),
 	}
 
 }
@@ -89,4 +91,9 @@ func (app *application) decodePostForm(r *http.Request, dst any) error {
 
 	return nil
 
+}
+
+// helper to check if the current user is an authenticated one
+func (app *application) isAuthenticated(r *http.Request) bool {
+	return app.sessionManager.Exists(r.Context(),"authenticatedUserID")
 }

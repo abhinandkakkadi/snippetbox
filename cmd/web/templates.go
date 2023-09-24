@@ -14,6 +14,7 @@ type templateData struct {
 	Snippets    []*models.Snippet
 	Form        any
 	Flash       string
+	isAuthenticated bool
 }
 
 // returns nicely formatted time as string (should only return one value, but can return error as second value)
