@@ -9,12 +9,13 @@ import (
 )
 
 type templateData struct {
-	CurrentYear int
-	Snippet     *models.Snippet
-	Snippets    []*models.Snippet
-	Form        any
-	Flash       string
+	CurrentYear     int
+	Snippet         *models.Snippet
+	Snippets        []*models.Snippet
+	Form            any
+	Flash           string
 	IsAuthenticated bool
+	CSRFToken       string
 }
 
 // returns nicely formatted time as string (should only return one value, but can return error as second value)

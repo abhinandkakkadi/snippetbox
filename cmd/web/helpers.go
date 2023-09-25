@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"github.com/go-playground/form/v4"
+	"github.com/justinas/nosurf"
 )
 
 func (app *application) serverError(w http.ResponseWriter, err error) {
@@ -65,6 +66,7 @@ func (app *application) newTemplateData(r *http.Request) *templateData {
 		Flash: app.sessionManager.PopString(r.Context(), "flash"),
 		// add authentication status to template data
 		IsAuthenticated: app.isAuthenticated(r),
+		CSRFToken: nosurf.Token(r), // Add the CSRF (Cross site request forgery) token 
 	}
 
 }
@@ -95,5 +97,5 @@ func (app *application) decodePostForm(r *http.Request, dst any) error {
 
 // helper to check if the current user is an authenticated one
 func (app *application) isAuthenticated(r *http.Request) bool {
-	return app.sessionManager.Exists(r.Context(),"authenticatedUserID")
+	return app.sessionManager.Exists(r.Context(), "authenticatedUserID")
 }
