@@ -25,7 +25,7 @@ func (app *application) routes() http.Handler {
 	// if cookie present - it reads the token and find the corresponding session data from database
 	// while also checking the session hasn't expired
 	// unprotected application routes
-	dynamic := alice.New(app.sessionManager.LoadAndSave, noSurf, app.authenticate)
+	dynamic := alice.New(app.sessionManager.LoadAndSave, noSurf)
 
 	// unprotected routes
 	router.Handler(http.MethodGet, "/", dynamic.ThenFunc(app.home))

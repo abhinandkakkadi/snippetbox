@@ -97,7 +97,7 @@ func (app *application) authenticate(next http.Handler) http.Handler {
 		
 		id := app.sessionManager.GetInt(r.Context(),"authenticatedUserID")
 		
-		// if authenticatedUserID does not exists, call the next handler using unchanged *http.Request
+		// if authenticatedUserID does not exists
 		if id == 0 {
 			next.ServeHTTP(w,r)
 			return
@@ -119,5 +119,4 @@ func (app *application) authenticate(next http.Handler) http.Handler {
 		next.ServeHTTP(w,r)
 
 	})
-	
 }
