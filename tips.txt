@@ -31,3 +31,10 @@ for development - use a self signed certificate, but it's not cryptographically 
 command to generate self signed RSA key pair - "go run /usr/local/go/src/crypto/tls/generate_cert.go --rsa-bits=2048 --host=localhost"
 both private and public key are PEM encoded, which is standard format used by most TLS implementation
 so from this we go a TLC certificate and a corresponding private key
+
+
+
+Testing commands
+
+ - go test ./cmd/web
+  - go test -v ./cmd/web  - verbose

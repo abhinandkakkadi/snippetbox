@@ -20,7 +20,13 @@ type templateData struct {
 
 // returns nicely formatted time as string (should only return one value, but can return error as second value)
 func humanDate(t time.Time) string {
-	return t.Format("02 Jan 2006 at 15:04") // custom template function
+
+	// return empty string if time has zero value
+	if t.IsZero() {
+		return ""
+	}
+
+	return t.UTC().Format("02 Jan 2006 at 15:04") // custom template function
 }
 
 // this is a string-keyed map which acts as a lookup between the names of our custom
