@@ -36,6 +36,7 @@ func Matches(value string, rx *regexp.Regexp) bool {
 // Add a new Field error
 func (v *Validator) AddFieldError(key, message string) {
 
+	// init a map using make function
 	if v.FieldErrors == nil {
 		v.FieldErrors = make(map[string]string)
 	}

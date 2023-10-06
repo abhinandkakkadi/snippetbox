@@ -18,6 +18,7 @@ func (app *application) serverError(w http.ResponseWriter, err error) {
 	app.errorLog.Output(2, trace)
 
 	http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+
 }
 
 func (app *application) clientError(w http.ResponseWriter, status int) {
@@ -42,6 +43,9 @@ func (app *application) render(w http.ResponseWriter, status int, page string, d
 
 	// write the template to buffer, instead of straight to http.ResponseWriter. If there's
 	// an error , call our serverError() helper and then return.
+	//
+	// for a file named base.tmpl, the parsed name will be base
+	// Also base.tmpl indirectly calls other templates inside it
 	err := ts.ExecuteTemplate(buf, "base", data)
 	if err != nil {
 		app.serverError(w, err)
@@ -66,7 +70,7 @@ func (app *application) newTemplateData(r *http.Request) *templateData {
 		Flash: app.sessionManager.PopString(r.Context(), "flash"),
 		// add authentication status to template data
 		IsAuthenticated: app.isAuthenticated(r),
-		CSRFToken: nosurf.Token(r), // Add the CSRF (Cross site request forgery) token 
+		CSRFToken:       nosurf.Token(r), // Add the CSRF (Cross site request forgery) token
 	}
 
 }
@@ -81,7 +85,6 @@ func (app *application) decodePostForm(r *http.Request, dst any) error {
 
 	err = app.formDecoder.Decode(dst, r.PostForm)
 	if err != nil {
-
 		var invalidDecoderError *form.InvalidDecoderError
 		if errors.As(err, &invalidDecoderError) {
 			panic(err)

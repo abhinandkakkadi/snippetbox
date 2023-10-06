@@ -39,6 +39,7 @@ func newTemplateCache() (map[string]*template.Template, error) {
 
 	cache := map[string]*template.Template{}
 
+	// output is a slice of string and will be of form ./ui/html/pages/create/tmpl ect.
 	pages, err := filepath.Glob("./ui/html/pages/*.tmpl")
 	if err != nil {
 		return nil, err

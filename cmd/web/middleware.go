@@ -49,6 +49,7 @@ func (app *application) recoverPanic(next http.Handler) http.Handler {
 				app.serverError(w, fmt.Errorf("%s", err))
 
 			}
+
 		}()
 
 		next.ServeHTTP(w, r)
@@ -89,34 +90,32 @@ func noSurf(next http.Handler) http.Handler {
 
 }
 
-
 func (app *application) authenticate(next http.Handler) http.Handler {
 
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
-		
-		id := app.sessionManager.GetInt(r.Context(),"authenticatedUserID")
-		
+		id := app.sessionManager.GetInt(r.Context(), "authenticatedUserID")
+
 		// if authenticatedUserID does not exists
 		if id == 0 {
-			next.ServeHTTP(w,r)
+			next.ServeHTTP(w, r)
 			return
 		}
 
 		// Check if user with that ID exists in database
 		exists, err := app.users.Exists(id)
 		if err != nil {
-			app.serverError(w,err)
+			app.serverError(w, err)
 			return
 		}
 
 		// if ID exists, create a new copy of request (with isAuthenticatedContextKey value true in request context)
 		if exists {
-			ctx := context.WithValue(r.Context(),isAuthenticatedContextKey,true)
+			ctx := context.WithValue(r.Context(), isAuthenticatedContextKey, true)
 			r = r.WithContext(ctx)
 		}
 
-		next.ServeHTTP(w,r)
+		next.ServeHTTP(w, r)
 
 	})
 }
