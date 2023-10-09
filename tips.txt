@@ -37,4 +37,12 @@ so from this we go a TLC certificate and a corresponding private key
 Testing commands
 
  - go test ./cmd/web
-  - go test -v ./cmd/web  - verbose
+ - go test -v ./cmd/web  - verbose
+ - go test -v -run="^TestPing$" ./cmd/web/ - test a specific function based on a regular expression
+ - go test -v -run="^TestHumanDate$/^UTC$" ./cmd/web - test a specific sub test
+ - go test -v -skip="^TestHumanDate$" ./cmd/web/ - skip a test
+ - go test -count=1 ./cmd/web - test using non cached test cases.  count=1 ensure it will neither read or write the test
+ - go clean -testcache - clear cached results
+ - go test -failfast ./cmd/web - stop running test after first failure
+ - go test -parallel=4 ./... - define how many test can run in parallel
+ - go test -race ./cmd/web/ - check for race condition is tests

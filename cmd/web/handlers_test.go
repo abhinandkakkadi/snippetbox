@@ -12,6 +12,10 @@ import (
 
 func TestPing(t *testing.T) {
 
+	// Run test parallely with other parallel test
+	// max no. of test that will run simultaneously is the current value of GOMAXPROCS.
+	t.Parallel()
+
 	// Initiate a new httptest.ResponseRecorder
 	rr := httptest.NewRecorder()
 
@@ -45,7 +49,6 @@ func TestPing(t *testing.T) {
 }
 
 func TestPingIntegration(t *testing.T) {
-
 	// create and instance of application struct with a couple
 	// of mock loggers
 	app := newTestApplication(t)
