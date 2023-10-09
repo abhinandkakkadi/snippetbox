@@ -20,6 +20,8 @@ func (app *application) routes() http.Handler {
 	fileServer := http.FileServer(http.Dir("./ui/static"))
 	router.Handler(http.MethodGet, "/static/*filepath", http.StripPrefix("/static", fileServer))
 
+	router.HandlerFunc(http.MethodGet, "/ping", ping)
+
 	//middleware specific to dynamic application routes
 	// LoadAndSave checks each incoming request for session cookie
 	// if cookie present - it reads the token and find the corresponding session data from database
