@@ -6,10 +6,9 @@ import (
 	"github.com/abhinandkakkadi/snippetbox/internal/models"
 )
 
-
 var mockSnippet = &models.Snippet{
-	ID: 1,
-	Title: "An old silent pond",
+	ID:      1,
+	Title:   "An old silent pond",
 	Content: "An old silent pond...",
 	Created: time.Now(),
 	Expires: time.Now(),
