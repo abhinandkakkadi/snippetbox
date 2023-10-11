@@ -3,6 +3,12 @@ GRANT SELECT, INSERT, UPDATE, DELETE ON snippetbox.* TO 'web'@'localhost';
 -- Important: Make sure to swap 'pass' with a password of your own choosing.
 ALTER USER 'web'@'localhost' IDENTIFIED BY 'pass';
 
+// grant permission and give it a password
+CREATE USER 'test_web'@'localhost';
+GRANT CREATE, DROP, ALTER, INDEX, SELECT, INSERT, UPDATE, DELETE ON test_snippetbox.* TO 'test_web'@'localhost';
+
+ALTER USER 'test_web'@'localhost' IDENTIFIED BY 'pass';
+
 
  - create and give permission to new user
 
@@ -46,3 +52,5 @@ Testing commands
  - go test -failfast ./cmd/web - stop running test after first failure
  - go test -parallel=4 ./... - define how many test can run in parallel
  - go test -race ./cmd/web/ - check for race condition is tests
+
+ go ignore director with name "testdata", or starting with . or _ from compiling
