@@ -10,7 +10,7 @@ func newTestDB(t *testing.T) *sql.DB {
 	// Establish a sql.DB connection pool for our test database
 	// Because our setup and teardown scripts contain multiple SQL statements,
 	// we need to use "multiStatements=true" parameter in our DSN. This instructs
-	// MySQL database driver to support executing multiple SQL statements in one 
+	// MySQL database driver to support executing multiple SQL statements in one
 	// db.Exec() call.
 	db, err := sql.Open("mysql", "test_web:pass@/test_snippetbox?parseTime=true&multiStatements=true")
 	if err != nil {
