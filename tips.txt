@@ -54,3 +54,25 @@ Testing commands
  - go test -race ./cmd/web/ - check for race condition is tests
 
  go ignore director with name "testdata", or starting with . or _ from compiling
+
+
+ Profiling Test coverage
+ go test -cover ./...
+
+ More breakdown of test coverage by method and function by using the -coverprofile flag like so:
+  - go test -coverprofile=/tmp/profile.out ./...
+ 
+ This will execute your tests as normal and — if all your tests pass — it will then write a coverage profile to a specific location (in our case /tmp/profile.out).
+ You can then view the coverage profile by using the go tool cover command like so:
+  - go tool cover -func=/tmp/profile.out
+
+ An alternative and more visual way to view the coverage profile is to use the -html flag instead of -func.
+  - go tool cover -html=/tmp/profile.out 
+
+
+$ go test -covermode=count -coverprofile=/tmp/profile.out ./...
+$ go tool cover -html=/tmp/profile.out
+Instead of just highlighting the statements in green and red, using -covermode=count makes the coverage profile record the exact number of times that each statement is executed during the tests.
+When viewed in the browser, statements which are executed more frequently are then shown in a more saturated shade of green, similar to this:
+   
+
